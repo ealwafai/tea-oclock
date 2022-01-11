@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Memberships API' do
-  describe 'GET /api/v1/customers/:id/memberships' do
+  describe 'GET /api/v1/customers/:customer_id/memberships' do
     context 'when subcriptions exist' do
       before(:each) do
         @customer = create(:customer)
@@ -55,7 +55,7 @@ RSpec.describe 'Memberships API' do
   end
 
   describe 'create action' do
-    context 'POST /api/v1/customers/:id/memberships' do
+    context 'POST /api/v1/customers/:customer_id/memberships' do
       before(:each) do
         @customer = create(:customer)
         @tea = create(:tea)
@@ -104,6 +104,58 @@ RSpec.describe 'Memberships API' do
 
         expect(results[:errors]).to eq(["Couldn't find Subscription with 'id'=#{(@subscription.id - 1)}"])
       end
+    end
+  end
+
+  describe 'PATCH /api/v1/customers/:customer_id/memberships/:id' do
+    context 'successful update' do
+      before(:each) do
+        @customer = create(:customer)
+        @tea_1 = create(:tea)
+        @tea_2 = create(:tea, title: 'different tea')
+        subscription = create(:subscription)
+        @membership_1 = create(:membership, id: 1, customer: @customer, tea: @tea_1, subscription: subscription)
+      end
+
+      it 'updates the tea membership active status to false cancelling the customer subscription' do
+        expect(@membership_1.active).to eq(true)
+
+        patch "/api/v1/customers/#{@customer.id}/memberships/#{@membership_1.id}", params: { active: false }
+
+        results = JSON.parse(response.body, symbolize_names: true)
+
+        expect(results[:data][:attributes][:active]).to eq(false)
+      end
+
+      it 'updates one or more attributes about the subscription' do
+        expect(@membership_1.active).to eq(true)
+
+        patch "/api/v1/customers/#{@customer.id}/memberships/#{@membership_1.id}", params: { tea_id: @tea_2.id }
+
+        results = JSON.parse(response.body, symbolize_names: true)
+
+        expect(results[:data][:attributes][:tea_id]).to eq(@tea_2.id)
+      end
+    end
+  end
+
+  context 'when tea membership is unsuccessful' do
+    before(:each) do
+      @customer = create(:customer)
+      @tea_1 = create(:tea)
+      @tea_2 = create(:tea)
+      subscription = create(:subscription)
+      @membership_1 = create(:membership, id: 1, customer: @customer, tea: @tea_1, subscription: subscription)
+    end
+
+    it 'when params are invalid' do
+      expect(@membership_1.tea_id).to eq(@tea_1.id)
+
+      patch "/api/v1/customers/#{@customer.id}/memberships/#{@membership_1.id}", params: { tea_id: (@tea_2.id * 20) }
+
+      results = JSON.parse(response.body, symbolize_names: true)
+
+      expect(results[:errors]).to eq(["Tea must exist"])
     end
   end
 end

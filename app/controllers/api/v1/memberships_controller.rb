@@ -16,6 +16,14 @@ class Api::V1::MembershipsController < ApplicationController
     json_response(MembershipsSerializer.new(membership))
   end
 
+  def update
+    customer = Customer.find(params[:customer_id])
+    membership = customer.memberships.where(id: params[:id]).first
+    membership.update!(membership_params)
+
+    json_response(MembershipsSerializer.new(membership))
+  end
+
   private
 
   def membership_params
