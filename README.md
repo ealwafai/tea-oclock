@@ -74,6 +74,9 @@ $ bundle exec rspec
 |             |               |               |
 
 
+## Schema 
+
+![Schema](https://user-images.githubusercontent.com/77654906/148860077-504e6482-ad51-46f6-92f2-213c2f7fb287.png)
 
 ## Contributors
 
