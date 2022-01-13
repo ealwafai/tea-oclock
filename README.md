@@ -10,7 +10,6 @@
 
 - [Overview](#overview)
 - [Local Setup](#local-setup)
-- [Setup](#setup)
 - [Schema](#schema)
 - [Endpoints](#endpoints)
 - [Tools Used](#tools-used)
@@ -32,30 +31,6 @@ This project requires Ruby 2.7.2.
 `rails db:create`
 * Run the test suite with `bundle exec rspec`.
 * Run your development server with `rails s` to see the app in action.
-
-## Setup
-* Ruby version
-```
-$ ruby -v
-ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-darwin20]
-```
-
-* System dependencies
-```
-$ rails -v
-Rails 5.2.6
-```
-
-* Database creation
-```
-$ rails db:{create,migrate}
-```
-
-* How to run the test suite
-```
-$ bundle exec rspec
-```
-
 
 ## Schema 
 
