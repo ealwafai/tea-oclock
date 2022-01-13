@@ -1,7 +1,9 @@
+<div align="center">
+    
 # Tea Oclock
 <br>
-<img src="https://user-images.githubusercontent.com/77654906/148858080-dafd5dc2-87de-4352-9e69-96131fac419c.jpeg" width="85%">
-
+<img src="https://user-images.githubusercontent.com/77654906/148858080-dafd5dc2-87de-4352-9e69-96131fac419c.jpeg" width="90%">
+</div>
 <br>
 
 ## Table of Contents
