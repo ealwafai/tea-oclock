@@ -9,7 +9,6 @@
 - [Overview](#overview)
 - [Local Setup](#local-setup)
 - [Setup](#setup)
-- [System Dependencies](#system-dependencies)
 - [Endpoints](#endpoints)
 - [Tools Used](#tools-used)
 - [Contributors](#contributors)
@@ -56,21 +55,207 @@ $ bundle exec rspec
 
 ## Endpoints
 
+The base path of each endpoint is:
+```
+http://localhost:3000/api/v1
+```
+
+
+**Create a new tea subscription for an existing customer**
+
+Happy Path
+
+Example Request:
+
+```
+POST /api/v1/customers/{:id}/memberships
+
+With the following JSON body:
+
+{
+    "tea_id": "5",
+    "subscription_id": "2",
+}
+```
+
+Example Response:
+
+```
+201 (Created)
+
+{
+    "data": {
+        "id": "11",
+        "type": "memberships",
+        "attributes": {
+            "tea_id": 5,
+            "customer_id": 3,
+            "subscription_id": 2,
+            "active": true
+        }
+    }
+}
+```
+
+Sad Path
+
+Example Request:
+
+```
+POST /api/v1/customers/{:id}/memberships
+
+With the following JSON body:
+
+{
+    "tea_id": "2",
+    "subscription_id": "3000",
+}
+```
+
+Example Response
+
+```
+404 (Not Found)
+
+{
+    "errors": [
+        "Couldn't find Subscription with 'id'=3000"
+    ]
+}
+```
+
+
+**Show all of the customer's tea subscriptions (active and inactive)**
+
+Happy Path
+
+Example request:
+
+```
+GET /api/v1/customers/{:id}/memberships
+
+```
+
+Example Response:
+
+```
+{
+    "data": [
+        {
+            "id": "1",
+            "type": "memberships",
+            "attributes": {
+                "tea_id": 1,
+                "customer_id": 1,
+                "subscription_id": 1,
+                "active": true
+            }
+        },
+        {
+            "id": "2",
+            "type": "memberships",
+            "attributes": {
+                "tea_id": 2,
+                "customer_id": 1,
+                "subscription_id": 1,
+                "active": true
+            }
+        },
+        {
+            "id": "3",
+            "type": "memberships",
+            "attributes": {
+                "tea_id": 3,
+                "customer_id": 1,
+                "subscription_id": 2,
+                "active": true
+            }
+        },
+        {
+            "id": "4",
+            "type": "memberships",
+            "attributes": {
+                "tea_id": 4,
+                "customer_id": 1,
+                "subscription_id": 2,
+                "active": true
+            }
+        },
+        {
+            "id": "5",
+            "type": "memberships",
+            "attributes": {
+                "tea_id": 5,
+                "customer_id": 1,
+                "subscription_id": 2,
+                "active": true
+            }
+        }
+    ]
+}
+```
+
+Sad Path
+
+Example request:
+
+```
+GET /api/v1/customers/{:invalid_id}/memberhships
+
+```
+
+Example Response:
+
+```
+{
+    "errors": [
+        "Couldn't find Customer with 'id'=3000"
+    ]
+}
+```
+
+
+**Cancel a customer's tea subscription**
+
+Example Request:
+
+```
+PATCH /api/v1/customers/{:id}/memberships/1
+
+With the following JSON body:
+
+{
+    "active": "false",
+}
+```
+
+Example Response:
+
+```
+{
+    "data": {
+        "id": "1",
+        "type": "memberships",
+        "attributes": {
+            "tea_id": 1,
+            "customer_id": 1,
+            "subscription_id": 1,
+            "active": false
+        }
+    }
+}
+```
+
 
 ## Tools Used
 
 | Development | Testing       | Gems          |
 |   :----:    |    :----:     |    :----:     |
 | Ruby 2.7.2  | RSpec         | SimpleCov     |
-| Rails 5.2.6 | Rubocop       | Pry           |
-| Github      |               | Figaro        |
+| Rails 5.2.6 |               | Pry           |
+| Github      |               | PostgresQL    |
 | Atom        |               | ShouldaMatcher|
-| Postman     |               | VCR           |
-|             |               | Webmock       |
-|             |               | PostgresQL    |
-|             |               | Postico       |
-|             |               | Faraday       |
-|             |               | Bcrypt        |
+|             |               |               |
 |             |               |               |
 
 
