@@ -11,6 +11,7 @@
 - [Overview](#overview)
 - [Local Setup](#local-setup)
 - [Setup](#setup)
+- [Schema](#schema)
 - [Endpoints](#endpoints)
 - [Tools Used](#tools-used)
 - [Contributors](#contributors)
@@ -54,6 +55,12 @@ $ rails db:{create,migrate}
 ```
 $ bundle exec rspec
 ```
+
+
+## Schema 
+
+![Schema](https://user-images.githubusercontent.com/77654906/148860077-504e6482-ad51-46f6-92f2-213c2f7fb287.png)
+
 
 ## Endpoints
 
@@ -260,10 +267,6 @@ Example Response:
 |             |               |               |
 |             |               |               |
 
-
-## Schema 
-
-![Schema](https://user-images.githubusercontent.com/77654906/148860077-504e6482-ad51-46f6-92f2-213c2f7fb287.png)
 
 ## Contributors
 
